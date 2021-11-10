@@ -17,7 +17,22 @@
 
 #include <stdint.h>
 #include "serial_io.h"
-#include "stm32f4xx_hal.h"
+#if defined(NILAI_USES_STM32F4xx)
+#    define NILAI_HAL_HEADER          "stm32f4xx_hal.h"
+#    define NILAI_UART_DATA_REG       DR
+#    define NILAI_UART_IRQ_STATUS_REG SR
+#elif defined(NILAI_USES_STM32F7xx)
+#    define NILAI_HAL_HEADER          "stm32f7xx_hal.h"
+#    define NILAI_UART_DATA_REG       RDR
+#    define NILAI_UART_IRQ_STATUS_REG ISR
+#elif defined(NILAI_USES_STM32L4xx)
+#    define NILAI_HAL_HEADER          "stm32l4xx_hal.h"
+#    define NILAI_UART_DATA_REG       RDR
+#    define NILAI_UART_IRQ_STATUS_REG ISR
+#else
+#    define NILAI_HAL_HEADER ""
+#    error No STM32 were defined in NilaiTFOConfig!
+#endif
 
 typedef struct {
     UART_HandleTypeDef *huart;
